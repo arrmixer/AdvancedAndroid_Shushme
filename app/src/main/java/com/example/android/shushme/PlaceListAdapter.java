@@ -23,18 +23,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.PlaceBuffer;
+
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceViewHolder> {
 
     private Context mContext;
+    private PlaceBuffer mPlaces;
 
     /**
      * Constructor using the context and the db cursor
      *
      * @param context the calling context/activity
      */
-    public PlaceListAdapter(Context context) {
+    public PlaceListAdapter(Context context, PlaceBuffer mPlaces) {
         // TODO (4) Take a PlaceBuffer as an input and store it as a local private member mPlaces
         this.mContext = context;
+        this.mPlaces = mPlaces;
     }
 
     /**
@@ -62,9 +66,18 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
     public void onBindViewHolder(PlaceViewHolder holder, int position) {
         // TODO (6) Implement onBindViewHolder to set the view holder's Name and Address text fields
         // from the Place object at the specified position in mPlaces
+        holder.nameTextView.setText(mPlaces.get(position).getName());
+        holder.addressTextView.setText(mPlaces.get(position).getAddress());
     }
 
     //TODO (7) Implement a public method swapPlaces that replaces the current mPlaces PlaceBuffer with a new one
+    public void swapPlaces(PlaceBuffer placeBuffer){
+        if(placeBuffer == null){
+            return;
+        }
+        mPlaces = placeBuffer;
+        this.notifyDataSetChanged();
+    }
 
     /**
      * Returns the number of items in the cursor
@@ -74,7 +87,10 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
     @Override
     public int getItemCount() {
         // TODO (5) Update getItemCount to return mPlaces's item count
-        return 0;
+        if(mPlaces == null){
+            return 0;
+        }
+        return mPlaces.getCount();
     }
 
     /**
