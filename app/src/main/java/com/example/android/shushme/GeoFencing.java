@@ -97,10 +97,10 @@ public class GeoFencing {
             return mGeofencePendingIntent;
         }
 
-        Intent intent = new Intent(mContext.getApplicationContext(), GeofenceBroadcastReceiver.class);
+        Intent intent = new Intent(mContext, GeofenceBroadcastReceiver.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences().
-        mGeofencePendingIntent = PendingIntent.getBroadcast(mContext.getApplicationContext(), 0, intent, PendingIntent.
+        mGeofencePendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.
                 FLAG_UPDATE_CURRENT);
         return mGeofencePendingIntent;
     }
